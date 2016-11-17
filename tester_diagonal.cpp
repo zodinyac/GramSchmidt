@@ -18,11 +18,15 @@ int main(int argc, char *argv[])
     }
     
     ifstream input(argv[1], ios::binary);
-    int size1 = read_val<int>(input), size2 = read_val<int>(input);
+    if (!input) {
+        cerr << "Can't open file '" << argv[1] << "' for read." << endl;
+        return 2;
+    }
     
+    int size1 = read_val<int>(input), size2 = read_val<int>(input);
     if (size1 != size2) {
         cerr << "Matrix is not diagonal: " << size1 << " x " << size2 << "." << endl;
-        return 2;
+        return 3;
     }
     
     for (int i = 0; i < size1; i++) {
@@ -31,10 +35,10 @@ int main(int argc, char *argv[])
             
             if (i == j && val != 1) {
                 cerr << "Matrix is not diagonal: " << val << " but expected 1 at (" << i << ", " << j << ")." << endl;
-                return 3;
+                return 4;
             } else if (i != j && val != 0) {
                 cerr << "Matrix is not diagonal: " << val << " but expected 0 at (" << i << ", " << j << ")." << endl;
-                return 4;
+                return 5;
             }
         }
     }

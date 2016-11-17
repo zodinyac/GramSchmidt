@@ -28,6 +28,11 @@ int main(int argc, char *argv[])
     }
     
     ofstream output(argv[1], ios::binary);
+    if (!output) {
+        cerr << "Can't open file '" << argv[1] << "' for write." << endl;
+        return 4;
+    }
+    
     output.write(reinterpret_cast<const char *>(&size), sizeof(size));
     output.write(reinterpret_cast<const char *>(&size), sizeof(size));
     for (int i = 0; i < size; i++) {
