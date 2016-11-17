@@ -150,15 +150,15 @@ int main(int argc, char* argv[])
         return 0;
     } else {
         // parallel version
+        double **b = new double*[m];
+        int b_m = 0;
+        int *b_ind2ind = new int[m];
+        for (int i = 0; i < m; ++i)
+            b_ind2ind[i] = NULL_VECTOR;
         if (!rank) {
             //master
             int i = 0, command, ended_procs = 0, ind;
             map<int, queue<int> > waiting_procs;
-            double **b = new double*[m];
-            int *b_ind2ind = new int[m];
-            int b_m = 0;
-            for (int i = 0; i < m; ++i)
-                b_ind2ind[i] = NULL_VECTOR;
             while (true) {
                 MPI_Recv(&command, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
                 switch (command) {
@@ -237,8 +237,7 @@ int main(int argc, char* argv[])
             }
         } else {
             //slaves
-            double *b = new double[n];
-            double *tmp = new double[n];
+            double *b_tmp;
             int command, task;
             while (true) {
                 command = GET_TASK_NUMBER;
@@ -246,8 +245,10 @@ int main(int argc, char* argv[])
                 switch (command) {
                 case NO_MORE_TASKS:
                     // exit
+                    for (int i = 0; i < b_m; ++i)
+                        delete[] b[i];
                     delete[] b;
-                    delete[] tmp;
+                    delete[] b_ind2ind;
                     MPI_File_close(&input);
                     MPI_File_close(&output);
                     MPI_Finalize();
@@ -255,28 +256,40 @@ int main(int argc, char* argv[])
                 case GET_TASK_NUMBER:
                     MPI_Recv(&task, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
                     MPI_File_seek(input, 2 * sizeof(int) + n * task * sizeof(double), MPI_SEEK_SET);
-                    MPI_File_read(input, b, n, MPI_DOUBLE, &status); // bi = ai
+                    b_tmp = new double[n];
+                    MPI_File_read(input, b_tmp, n, MPI_DOUBLE, &status); // bi = ai
                     for (int j = 0; j < task; ++j) {
-                        command = GET_VECTOR_STATUS;
-                        MPI_Send(&command, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-                        command = j;
-                        MPI_Sendrecv_replace(&command, 1, MPI_INT, 0, 0, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-                        if (command == IS_NON_ZERO_VECTOR) {
-                            MPI_Recv(tmp, n, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status); // tmp = bj
-                            proj_and_minus(b, b, tmp, n); // pro scheme
-                        }
+                        if (b_ind2ind[j] == NULL_VECTOR) {
+                            command = GET_VECTOR_STATUS;
+                            MPI_Send(&command, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+                            command = j;
+                            MPI_Sendrecv_replace(&command, 1, MPI_INT, 0, 0, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+                            if (command == IS_NON_ZERO_VECTOR) {
+                                b[b_m] = new double[n];
+                                MPI_Recv(b[b_m], n, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status); // tmp = bj
+                                b_ind2ind[j] = b_m;
+                                ++b_m;
+                                proj_and_minus(b_tmp, b_tmp, b[b_ind2ind[j]], n); // pro scheme
+                            }
+                        } else if (b_ind2ind[j] != ZERO_VECTOR)
+                            proj_and_minus(b_tmp, b_tmp, b[b_ind2ind[j]], n); // pro scheme
                     }
                     command = SEND_VECTOR_STATUS;
                     MPI_Send(&command, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
                     command = task;
                     MPI_Send(&command, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-                    if (is_non_zero(b, n)) {
+                    if (is_non_zero(b_tmp, n)) {
                         command = IS_NON_ZERO_VECTOR;
                         MPI_Send(&command, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-                        MPI_Send(b, n, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+                        MPI_Send(b_tmp, n, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+                        b[b_m] = b_tmp;
+                        b_ind2ind[task] = b_m;
+                        ++b_m;
                     } else {
                         command = IS_ZERO_VECTOR;
                         MPI_Send(&command, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+                        b_ind2ind[task] = ZERO_VECTOR;
+                        delete[] b_tmp;
                     }
                     break;
                 }
