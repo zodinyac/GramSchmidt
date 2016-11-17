@@ -130,6 +130,8 @@ int main(int argc, char* argv[])
 
         write_time = MPI_Wtime() - write_time;
         cout << fixed << setprecision((int)round(log(1 / MPI_Wtick()) / log(10)));
+        cout << "Proc count: " << size << endl;
+        cout << "Matrix size: " << m << " x " << n << endl;
         cout << "Algo time: " << algo_time << endl;
         cout << "Write time: " << write_time << endl;
 
@@ -181,6 +183,8 @@ int main(int argc, char* argv[])
 
                             write_time = MPI_Wtime() - write_time;
                             cout << fixed << setprecision((int)round(log(1 / MPI_Wtick()) / log(10)));
+                            cout << "Proc count: " << size << endl;
+                            cout << "Matrix size: " << m << " x " << n << endl;
                             cout << "Algo time: " << algo_time << endl;
                             cout << "Write time: " << write_time << endl;
 
