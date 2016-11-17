@@ -88,6 +88,10 @@ int main(int argc, char* argv[])
     MPI_File_read(input, &m, 1, MPI_INT, &status);
     MPI_File_read(input, &n, 1, MPI_INT, &status);
 
+    if (!rank) {
+        cout << "Proc count: " << size << endl;
+        cout << "Matrix size: " << m << " x " << n << endl;
+    }
     algo_time = MPI_Wtime();
 
     if (size == 1) {
@@ -130,8 +134,6 @@ int main(int argc, char* argv[])
 
         write_time = MPI_Wtime() - write_time;
         cout << fixed << setprecision((int)round(log(1 / MPI_Wtick()) / log(10)));
-        cout << "Proc count: " << size << endl;
-        cout << "Matrix size: " << m << " x " << n << endl;
         cout << "Algo time: " << algo_time << endl;
         cout << "Write time: " << write_time << endl;
 
@@ -183,8 +185,6 @@ int main(int argc, char* argv[])
 
                             write_time = MPI_Wtime() - write_time;
                             cout << fixed << setprecision((int)round(log(1 / MPI_Wtick()) / log(10)));
-                            cout << "Proc count: " << size << endl;
-                            cout << "Matrix size: " << m << " x " << n << endl;
                             cout << "Algo time: " << algo_time << endl;
                             cout << "Write time: " << write_time << endl;
 
