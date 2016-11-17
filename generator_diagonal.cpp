@@ -1,4 +1,5 @@
 #include <cctype>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
     output.write(reinterpret_cast<const char *>(&size), sizeof(size));
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            int val = (i == j);
+            double val = (i == j);
             output.write(reinterpret_cast<const char *>(&val), sizeof(val));
         }
     }

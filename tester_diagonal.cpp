@@ -2,9 +2,10 @@
 #include <iostream>
 using namespace std;
 
-int read_int(ifstream &input)
+template <typename T>
+T read_val(ifstream &input)
 {
-    int val;
+    T val;
     input.read(reinterpret_cast<char *>(&val), sizeof(val));
     return val;
 }
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
     }
     
     ifstream input(argv[1], ios::binary);
-    int size1 = read_int(input), size2 = read_int(input);
+    int size1 = read_val<int>(input), size2 = read_val<int>(input);
     
     if (size1 != size2) {
         cerr << "Matrix is not diagonal: " << size1 << " x " << size2 << "." << endl;
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
     
     for (int i = 0; i < size1; i++) {
         for (int j = 0; j < size1; j++) {
-            int val = read_int(input);
+            double val = read_val<double>(input);
             
             if (i == j && val != 1) {
                 cerr << "Matrix is not diagonal: " << val << " but expected 1 at (" << i << ", " << j << ")." << endl;
