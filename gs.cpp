@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
         MPI_File_write(output, &n, 1, MPI_INT, &status);
         for (int i = 0; i < m; ++i)
             if (non_zero_b[i])
-                MPI_File_write(input, b[i], n, MPI_DOUBLE, &status);
+                MPI_File_write(output, b[i], n, MPI_DOUBLE, &status);
 
         write_time = MPI_Wtime() - write_time;
         cout << fixed << setprecision((int)round(log(1 / MPI_Wtick()) / log(10)));
