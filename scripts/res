@@ -1,4 +1,4 @@
 #!/bin/bash
 
-#./tester_diagonal outputs/output_$1_$2.dat
-cat stdout_$1_$2.txt
+./tester_diagonal outputs/output_$1_$2.dat
+cat stdout/stdout_$1_$2.txt
