@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      3245,        108]
-NotebookOptionsPosition[      2749,         86]
-NotebookOutlinePosition[      3092,        101]
-CellTagsIndexPosition[      3049,         98]
+NotebookDataLength[      3196,        105]
+NotebookOptionsPosition[      2701,         83]
+NotebookOutlinePosition[      3044,         98]
+CellTagsIndexPosition[      3001,         95]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -25,21 +25,20 @@ Cell[BoxData[
   RowBox[{"ReadList", "[", 
    RowBox[{"\"\<res_plot3d.txt\>\"", ",", " ", "Number", ",", " ", 
     RowBox[{"RecordLists", "\[Rule]", " ", "True"}]}], "]"}]}]], "Input",
- CellChangeTimes->{{3.6884704808889513`*^9, 3.6884704858402348`*^9}}],
+ CellChangeTimes->{{3.6884704808889513`*^9, 3.6884704858402348`*^9}, {
+  3.6884925657169857`*^9, 3.688492574060463*^9}}],
 
 Cell[BoxData[
  TemplateBox[{
   "ReadList","noopen",
    "\"Cannot open \
-\\!\\(\\*RowBox[{\\\"\\\\\\\"res_plot3d.txt\\\\\\\"\\\"}]\\).\"",2,40,21,
+\\!\\(\\*RowBox[{\\\"\\\\\\\"res_plot3d.txt\\\\\\\"\\\"}]\\).\"",2,26,12,
    22223487244116412805,"Local"},
   "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{
-  3.688470489295432*^9, {3.688492593531576*^9, 3.6884926121936436`*^9}}],
+ CellChangeTimes->{3.688470489295432*^9}],
 
 Cell[BoxData["$Failed"], "Output",
- CellChangeTimes->{
-  3.6884704892974324`*^9, {3.6884925935535774`*^9, 3.688492612215645*^9}}]
+ CellChangeTimes->{3.6884704892974324`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -55,17 +54,16 @@ Cell[BoxData[
     RowBox[{"{", 
      RowBox[{
       RowBox[{"CPU", " ", "number"}], ",", 
-      RowBox[{"data", " ", "size"}], ",", " ", "time"}], "}"}]}]}], 
-  "]"}]], "Input",
- CellChangeTimes->{3.6884925859321413`*^9}],
+      RowBox[{"data", " ", "size"}], ",", " ", "time"}], "}"}]}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]], "Input"],
 
 Cell[BoxData[
  TemplateBox[{
   "ListPlot3D","arrayerr",
    "\"\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\) must be a valid array or a list \
-of valid arrays.\"",2,41,22,22223487244116412805,"Local"},
+of valid arrays.\"",2,27,13,22223487244116412805,"Local"},
   "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.6884926141997585`*^9}],
+ CellChangeTimes->{3.688470510422641*^9}],
 
 Cell[BoxData[
  RowBox[{"ListPlot3D", "[", 
@@ -78,10 +76,9 @@ Cell[BoxData[
     RowBox[{"{", 
      RowBox[{
       RowBox[{"CPU", " ", "number"}], ",", 
-      RowBox[{"data", " ", "size"}], ",", "time"}], "}"}]}]}], 
-  "]"}]], "Output",
- CellChangeTimes->{
-  3.6884705104246407`*^9, {3.6884925886862993`*^9, 3.68849261422176*^9}}]
+      RowBox[{"data", " ", "size"}], ",", "time"}], "}"}]}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.6884705104246407`*^9}]
 }, Open  ]]
 },
 WindowSize->{1346, 835},
@@ -101,14 +98,14 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 285, 5, 47, "Input"],
-Cell[868, 29, 313, 8, 21, "Message"],
-Cell[1184, 39, 129, 2, 30, "Output"]
+Cell[580, 22, 336, 6, 47, "Input"],
+Cell[919, 30, 262, 7, 21, "Message"],
+Cell[1184, 39, 78, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1350, 46, 525, 13, 47, "Input"],
-Cell[1878, 61, 277, 6, 21, "Message"],
-Cell[2158, 69, 575, 14, 30, "Output"]
+Cell[1299, 45, 533, 12, 47, "Input"],
+Cell[1835, 59, 275, 6, 21, "Message"],
+Cell[2113, 67, 572, 13, 30, "Output"]
 }, Open  ]]
 }
 ]
