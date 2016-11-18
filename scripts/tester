@@ -1,0 +1,25 @@
+#!/bin/bash
+
+cp process_tpl.txt process.txt
+
+while true
+do
+    queue=`./q | wc -l`
+    if [ "$queue" -lt 3 ]
+    then
+        if [ -s process.txt ]
+        then
+            firstline=`sed -e 1$'{w/dev/stdout\n;d}' -i~ process.txt`
+            proc=$(echo $firstline | cut -f1 -d' ')
+            size=$(echo $firstline | cut -f2 -d' ')
+            
+            echo "Running $proc $size..."
+            ./run $proc $size > /dev/null
+        else
+            echo "Done."
+            exit 0
+        fi
+    else
+        sleep 3
+    fi
+done
