@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for f in stdout/*.txt
+do
+    count=`cat $f | awk '{print $3}' | sed -n 1p`
+    size1=`cat $f | awk '{print $3}' | sed -n 2p`
+    algo_time=`cat $f | awk '{print $3}' | sed -n 3p`
+    write_time=`cat $f | awk '{print $3}' | sed -n 4p`
+    #size2=`cat $f | awk '{print $5}' | sed -n 2p`
+    
+    echo "$count $size1 $algo_time $write_time"
+done
