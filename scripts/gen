@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./generator_diagonal inputs/input_$1.dat $1
